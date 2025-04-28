@@ -1,0 +1,196 @@
+{
+    // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+    // 기존 특성에 대한 설명을 보려면 가리킵니다.
+    // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "BOJ16236",
+            "request": "launch",
+            "mainClass": "implementation.BOJ16236",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1193",
+            "request": "launch",
+            "mainClass": "implementation.BOJ1193",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ10773",
+            "request": "launch",
+            "mainClass": "implementation.BOJ10773",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ14500",
+            "request": "launch",
+            "mainClass": "implementation.BOJ14500",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ10828",
+            "request": "launch",
+            "mainClass": "implementation.BOJ10828",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1316",
+            "request": "launch",
+            "mainClass": "implementation.BOJ1316",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ14499",
+            "request": "launch",
+            "mainClass": "implementation.BOJ14499",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ14503",
+            "request": "launch",
+            "mainClass": "implementation.BOJ14503",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2941",
+            "request": "launch",
+            "mainClass": "implementation.BOJ2941",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ4673",
+            "request": "launch",
+            "mainClass": "implementation.BOJ4673",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ10808",
+            "request": "launch",
+            "mainClass": "week1.BOJ10808",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ10988",
+            "request": "launch",
+            "mainClass": "week1.BOJ10988",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1159",
+            "request": "launch",
+            "mainClass": "week1.BOJ1159",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2309_1",
+            "request": "launch",
+            "mainClass": "week1.BOJ2309_1",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2309_2",
+            "request": "launch",
+            "mainClass": "week1.BOJ2309_2",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2979",
+            "request": "launch",
+            "mainClass": "week1.BOJ2979",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1012",
+            "request": "launch",
+            "mainClass": "week2.BOJ1012",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ11724",
+            "request": "launch",
+            "mainClass": "week2.BOJ11724",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2178",
+            "request": "launch",
+            "mainClass": "week2.BOJ2178",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ15686",
+            "request": "launch",
+            "mainClass": "week3.BOJ15686",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ19942",
+            "request": "launch",
+            "mainClass": "week4.BOJ19942",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ9935",
+            "request": "launch",
+            "mainClass": "week5.BOJ9935",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ12865",
+            "request": "launch",
+            "mainClass": "week7.BOJ12865",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1535",
+            "request": "launch",
+            "mainClass": "week7.BOJ1535",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ17837",
+            "request": "launch",
+            "mainClass": "week7.BOJ17837",
+            "projectName": "Algorithm_JAVA_d89df071"
+        }
+    ]
+}
