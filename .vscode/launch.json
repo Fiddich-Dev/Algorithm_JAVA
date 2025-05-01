@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BOJ13460",
+            "request": "launch",
+            "mainClass": "implementation.BOJ13460",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2563",
+            "request": "launch",
+            "mainClass": "implementation.BOJ2563",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
             "name": "BOJ16236",
             "request": "launch",
             "mainClass": "implementation.BOJ16236",
