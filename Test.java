@@ -79,5 +79,10 @@ public class Test {
         System.out.println(Math.round(pi * 10) / 10.0); // 31.4159를 소수점 아래 첫번째 자리에서 반올림
         System.out.println(Math.round(pi * 100) / 100.0); // 314.159를 소수점 아래 첫번째 자리에서 반올림
         System.out.println(Math.round(pi * 1000) / 1000.0); // 3141.59를 소수점 아래 첫번째 자리에서 반올림
+
+        System.out.println(String.format("%.1f", pi)); // 3.14159를 소수점 아래 첫번째 자리까지 출력
+        System.out.println(String.format("%.2f", pi)); // 3.14159를 소수점 아래 두번째 자리까지 출력
+        System.out.println(String.format("%.3f", pi)); // 3.14159를 소수점 아래 세번째 자리까지 출력
+        System.out.println(String.format("%.4f", pi)); // 3.14159를 소수점 아래 네번째 자리까지 출력
     }
 }
