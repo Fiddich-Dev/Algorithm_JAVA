@@ -84,5 +84,6 @@ public class Test {
         System.out.println(String.format("%.2f", pi)); // 3.14159를 소수점 아래 두번째 자리까지 출력
         System.out.println(String.format("%.3f", pi)); // 3.14159를 소수점 아래 세번째 자리까지 출력
         System.out.println(String.format("%.4f", pi)); // 3.14159를 소수점 아래 네번째 자리까지 출력
+
     }
 }
