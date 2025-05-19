@@ -6,6 +6,146 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BOJ10026",
+            "request": "launch",
+            "mainClass": "week2.BOJ10026",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2606",
+            "request": "launch",
+            "mainClass": "week2.BOJ2606",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1026",
+            "request": "launch",
+            "mainClass": "week2.BOJ1026",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1018",
+            "request": "launch",
+            "mainClass": "week1.BOJ1018",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1932",
+            "request": "launch",
+            "mainClass": "week7.BOJ1932",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1003",
+            "request": "launch",
+            "mainClass": "week7.BOJ1003",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2003",
+            "request": "launch",
+            "mainClass": "week4.BOJ2003",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ15889",
+            "request": "launch",
+            "mainClass": "week4.BOJ15889",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1541",
+            "request": "launch",
+            "mainClass": "week4.BOJ1541",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BitMasking",
+            "request": "launch",
+            "mainClass": "week3.BitMasking",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2961",
+            "request": "launch",
+            "mainClass": "week3.BOJ2961",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "week3.Main",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ9663",
+            "request": "launch",
+            "mainClass": "week3.BOJ9663",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1065",
+            "request": "launch",
+            "mainClass": "week3.BOJ1065",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ14497",
+            "request": "launch",
+            "mainClass": "week2.BOJ14497",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ7576",
+            "request": "launch",
+            "mainClass": "week2.BOJ7576",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ1260",
+            "request": "launch",
+            "mainClass": "week2.BOJ1260",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ17478",
+            "request": "launch",
+            "mainClass": "implementation.BOJ17478",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "RemoveEmptyLines",
+            "request": "launch",
+            "mainClass": "RemoveEmptyLines",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "FileTest",
+            "request": "launch",
+            "mainClass": "FileTest",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
             "name": "BOJ1475",
             "request": "launch",
             "mainClass": "implementation.BOJ1475",
