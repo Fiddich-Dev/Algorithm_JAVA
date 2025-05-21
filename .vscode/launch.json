@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BOJ14501",
+            "request": "launch",
+            "mainClass": "week3.BOJ14501",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ2580",
+            "request": "launch",
+            "mainClass": "implementation.BOJ2580",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
+            "name": "BOJ17413",
+            "request": "launch",
+            "mainClass": "implementation.BOJ17413",
+            "projectName": "Algorithm_JAVA_d89df071"
+        },
+        {
+            "type": "java",
             "name": "BOJ10026",
             "request": "launch",
             "mainClass": "week2.BOJ10026",
