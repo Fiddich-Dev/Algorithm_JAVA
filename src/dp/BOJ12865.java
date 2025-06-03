@@ -1,6 +1,7 @@
 package dp;
 
 import java.util.*;
+import java.io.*;
 
 public class BOJ12865 {
 
@@ -9,15 +10,17 @@ public class BOJ12865 {
     static int[] v = new int[104];
     static int[] dp = new int[100004];
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        k = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
         for(int i = 0; i < n; i++) {
-            w[i] = sc.nextInt();
-            v[i] = sc.nextInt();
+            st = new StringTokenizer(br.readLine());
+            w[i] = Integer.parseInt(st.nextToken());
+            v[i] = Integer.parseInt(st.nextToken());
         }
 
         for(int i = 0; i < n; i++) {
@@ -27,7 +30,6 @@ public class BOJ12865 {
         }
 
         System.out.println(dp[k]);
-
     }
 }
 

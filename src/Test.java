@@ -4,52 +4,67 @@ import java.io.*;
 
 public class Test {
 
+    static int n;
+    static String ret = "";
+    static char[] a = new char[104];
+    static char[] b = new char[104];
+
     public static void main(String[] args) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-        pq.add(10);
-        pq.add(7);
-        pq.add(15);
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        ret = sc.next();
 
-        while(!pq.isEmpty()) {
-            System.out.println(pq.poll());
+        for(int i = 0; i < n; i++) {
+            a[i] = sc.next().charAt(0);
+            b[i] = sc.next().charAt(0);
         }
 
-        List<Integer> arr = new ArrayList<>();
-        arr.add(10);
-        arr.add(7);
-        arr.add(15);
-
-        Collections.sort(arr, Collections.reverseOrder());
-
-        for(int i = 0; i < arr.size(); i++) {
-            System.out.println(arr.get(i));
-        }
-
-        List<Pair> pairs = new ArrayList<>();
-        pairs.add(new Pair(1, 3));
-        pairs.add(new Pair(1, 9));
-        pairs.add(new Pair(5, 3));
-
-        pairs.sort((p1, p2) -> {
-            if(p1.y == p2.y) {
-                return p2.x - p1.x;
-            }
-            return p1.y - p2.y;
-        });
-
-        for (Pair p : pairs) {
-            System.out.println("(" + p.y + ", " + p.x + ")");
-        }
-
+        go(0, 0, ret);
     }
 
-    static class Pair {
-        int y;
-        int x;
+    static void go(int now, int cnt, String temp) {
+        if(cnt == n) {
+            System.out.println(temp);
+            return;
+        }
 
-        public Pair(int y, int x) {
-            this.y = y;
-            this.x = x;
+        if(a[cnt] == 'L') {
+            temp = solve1(now, b[cnt], temp);
+            go(now, cnt+1, temp);
+        }
+        else if(a[cnt] == 'R') {
+            temp = solve2(now, b[cnt], temp);
+            go(now+1, cnt+1, temp);
         }
     }
+
+    // 왼쪽에 넣기
+    static String solve1(int now, char c, String temp) {
+        String front = temp.substring(0, now);
+        String back = temp.substring(now);
+        return front + c + back;
+    }
+
+    // 오른쪽에 넣기
+    static String solve2(int now, char c, String temp) {
+        String front = temp.substring(0, now+1);
+        String back = temp.substring(now+1);
+        return front + c + back;
+    }
+
+
 }
+
+
+//4 m
+//L g
+//R o
+//R r
+//L o
+
+// m
+// gm
+// gom
+// gorm
+// goorm
+

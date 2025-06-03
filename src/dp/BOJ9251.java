@@ -5,29 +5,29 @@ import java.io.*;
 
 public class BOJ9251 {
 
-    static int[][] dp = new int[1004][1004];
-    static int n, m;
     static String s1 = "";
     static String s2 = "";
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        s1 = st.nextToken();
-        n = s1.length();
-        st = new StringTokenizer(br.readLine());
-        s2 = st.nextToken();
-        m = s2.length();
+    static int[][] dp = new int[1004][1004];
 
-        for(int i = 0; i < 1004; i++) {
-            for(int j = 0; j < 1004; j++) {
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        s1 = sc.next();
+        s2 = sc.next();
+
+        for(int i = 0; i < s1.length(); i++) {
+            for(int j = 0; j < s2.length(); j++) {
                 dp[i][j] = -1;
             }
         }
 
-        System.out.println(go(n-1, m-1));
+//        go(s1.length()-1, s2.length()-1)
+        System.out.println(go(s1.length()-1, s2.length()-1));
 
     }
+
+
 
     static int go(int i, int j) {
 
@@ -35,17 +35,21 @@ public class BOJ9251 {
             return 0;
         }
 
+
         if(dp[i][j] != -1) {
             return dp[i][j];
         }
 
         if(s1.charAt(i) == s2.charAt(j)) {
-            return dp[i][j] = go(i-1, j-1) + 1;
+            dp[i][j] = go(i-1, j-1) + 1;
         }
         else {
-            return dp[i][j] = Math.max(go(i-1, j), go(i, j-1));
+            dp[i][j] = Math.max(go(i-1, j), go(i, j-1));
         }
+
+        return dp[i][j];
     }
+
 
 
 }

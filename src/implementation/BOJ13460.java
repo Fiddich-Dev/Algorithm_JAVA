@@ -3,135 +3,117 @@ package implementation;
 import java.util.*;
 
 
-class PairBeads {
-    int redY;
-    int redX;
-    int blueY;
-    int blueX;
-    int cnt;
-    public PairBeads(int redY, int redX, int blueY, int blueX, int cnt) {
-        this.redY = redY;
-        this.redX = redX;
-        this.blueY = blueY;
-        this.blueX = blueX;
-        this.cnt = cnt;
-    }
-
-
-
-}
-
-
-
 public class BOJ13460 {
 
-    static int n;
-    static int m;
-
-    static char[][] board = new char[14][14];
-
+    static int n, m;
+    static char[][] a = new char[14][14];
     static int[] dy = {-1, 0, 1, 0};
     static int[] dx = {0, 1, 0, -1};
+    static int ret = Integer.MAX_VALUE;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
         m = sc.nextInt();
 
-        PairBeads pb = new PairBeads(0, 0, 0, 0, 0);
+        Beads beads = new Beads(0, 0, 0, 0, 0);
 
         for(int i = 0; i < n; i++) {
             String s = sc.next();
             for(int j = 0; j < m; j++) {
-                board[i][j] = s.charAt(j);
-                if(board[i][j] == 'R') {
-                    pb.redY = i;
-                    pb.redX = j;
-                    board[i][j] = '.';
+                a[i][j] = s.charAt(j);
+
+                if(a[i][j] == 'R') {
+                    beads.redY = i;
+                    beads.redX = j;
+                    a[i][j] = '.';
                 }
-                else if(board[i][j] == 'B') {
-                    pb.blueY = i;
-                    pb.blueX = j;
-                    board[i][j] = '.';
+                else if(a[i][j] == 'B') {
+                    beads.blueY = i;
+                    beads.blueX = j;
+                    a[i][j] = '.';
                 }
-                
             }
         }
 
-        System.out.println(bfs(pb));
+        bfs(beads);
+
+        if(ret == Integer.MAX_VALUE) {
+            System.out.println(-1);
+        }
+        else {
+            System.out.println(ret);
+        }
+
+
     }
+    // 빨간 공만 빠져야함
 
-    static int bfs(PairBeads pb) {
-
-        Queue<PairBeads> q = new LinkedList<>();
-        q.add(pb);
+    static void bfs(Beads beads) {
+        Queue<Beads> q = new LinkedList<>();
+        q.add(beads);
 
         while(!q.isEmpty()) {
-            PairBeads beads = q.poll();
+            Beads now = q.poll();
 
-
-            if(beads.cnt == 10) {
+            if(now.cnt == 10) {
                 continue;
             }
 
             for(int i = 0; i < 4; i++) {
-                int redY = beads.redY;
-                int redX = beads.redX;
-                int blueY = beads.blueY;
-                int blueX = beads.blueX;
+                int redY = now.redY;
+                int redX = now.redX;
+                int blueY = now.blueY;
+                int blueX = now.blueX;
                 boolean isRedHole = false;
                 boolean isBlueHole = false;
 
                 // 빨간공
                 while(true) {
-                    int newRedY = redY + dy[i];
-                    int newRedX = redX + dx[i];
+                    int nry = redY + dy[i];
+                    int nrx = redX + dx[i];
 
-                    if(board[newRedY][newRedX] == '#') {
+                    if(a[nry][nrx] == '#') {
                         break;
                     }
-
-                    if(board[newRedY][newRedX] == 'O') {
+                    if(a[nry][nrx] == 'O') {
                         isRedHole = true;
                         break;
                     }
-
-                    redY = newRedY;
-                    redX = newRedX;
+                    redY = nry;
+                    redX = nrx;
                 }
                 // 파란공
                 while(true) {
-                    int newBlueY = blueY + dy[i];
-                    int newBlueX = blueX + dx[i];
+                    int nby = blueY + dy[i];
+                    int nbx = blueX + dx[i];
 
-                    if(board[newBlueY][newBlueX] == '#') {
+                    if(a[nby][nbx] == '#') {
                         break;
                     }
-
-                    if(board[newBlueY][newBlueX] == 'O') {
+                    if(a[nby][nbx] == 'O') {
                         isBlueHole = true;
                         break;
                     }
 
-                    blueY = newBlueY;
-                    blueX = newBlueX;
+                    blueY = nby;
+                    blueX = nbx;
                 }
-
+                // 목적 달성
+                if(isRedHole == true && isBlueHole == false) {
+                    ret = Math.min(ret, now.cnt+1);
+                    continue;
+                }
+                // 안되는 경우
                 if(isBlueHole == true) {
                     continue;
                 }
-                else if(isRedHole == true) {
-                    return beads.cnt + 1; //?
-                }
 
-                // 경우의 수를 줄이기 위해 두 구슬의 위치가 그대로인 경우에는 큐에 집어넣지 않습니다.
-                if (beads.redX == redX && beads.redY == redY && beads.blueX == blueX && beads.blueY == blueY) {
-                    continue;
-                }
-
+                // 겹치는 경우
                 if(redY == blueY && redX == blueX) {
                     if(i == 0) {
-                        if(beads.blueY < beads.redY) {
+                        // y좌표가 큰게 밀려남
+                        if(now.redY > now.blueY) {
                             redY++;
                         }
                         else {
@@ -139,7 +121,8 @@ public class BOJ13460 {
                         }
                     }
                     else if(i == 1) {
-                        if(beads.blueX < beads.redX) {
+                        // x좌표가 작은게 밀려남
+                        if(now.redX > now.blueX) {
                             blueX--;
                         }
                         else {
@@ -147,7 +130,8 @@ public class BOJ13460 {
                         }
                     }
                     else if(i == 2) {
-                        if(beads.blueY < beads.redY) {
+                        // y좌표가 작은게 밀려남
+                        if(now.redY > now.blueY) {
                             blueY--;
                         }
                         else {
@@ -155,7 +139,8 @@ public class BOJ13460 {
                         }
                     }
                     else if(i == 3) {
-                        if(beads.blueX < beads.redX) {
+                        // x좌표가 큰게 밀려남
+                        if(now.redX > now.blueX) {
                             redX++;
                         }
                         else {
@@ -164,9 +149,26 @@ public class BOJ13460 {
                     }
                 }
 
-                q.add(new PairBeads(redY, redX, blueY, blueX, beads.cnt+1)); // ?
+                q.add(new Beads(redY, redX, blueY, blueX, now.cnt+1));
             }
         }
-        return -1;
     }
+
+
+    static class Beads {
+        int redY;
+        int redX;
+        int blueY;
+        int blueX;
+        int cnt;
+
+        public Beads(int redY, int redX, int blueY, int blueX, int cnt) {
+            this.redY = redY;
+            this.redX = redX;
+            this.blueY = blueY;
+            this.blueX = blueX;
+            this.cnt = cnt;
+        }
+    }
+
 }
