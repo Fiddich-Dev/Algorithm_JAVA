@@ -33,5 +33,15 @@ public class BOJ2167 {
             System.out.println(sum);
         }
     }
+
+    static class Pair {
+        int y;
+        int x;
+
+        public Pair(int y, int x) {
+            this.y = y;
+            this.x = x;
+        }
+    }
 }
 

@@ -135,4 +135,14 @@ public class BOJ2573 {
 		}
 		return true;
 	}
+
+	static class Pair {
+		int y;
+		int x;
+
+		public Pair(int y, int x) {
+			this.y = y;
+			this.x = x;
+		}
+	}
 }
