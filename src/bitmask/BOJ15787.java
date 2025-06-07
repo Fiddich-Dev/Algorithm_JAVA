@@ -1,51 +1,57 @@
-package bitmasking;
+package bitmask;
 
 import java.util.*;
+import java.io.*;
 
 public class BOJ15787 {
 
 	static int n, m;
-	
 	static int[] train = new int[100004];
-	
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		n = sc.nextInt();
-		m = sc.nextInt();
-		
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+
 		for(int i = 0; i < m; i++) {
-			int a = sc.nextInt();
-			int b = sc.nextInt();
-			
-			
+
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken())-1;
+			int c = 0;
+			if(a == 1 || a == 2) {
+				c = Integer.parseInt(st.nextToken())-1;
+			}
+
 			if(a == 1) {
-				int c = sc.nextInt();
-				// 비트 켜기
-				train[b] |= (1 << c-1);
+				train[b] |= (1 << c);
 			}
 			else if(a == 2) {
-				int c = sc.nextInt();
-				train[b] &= ~(1 << c-1);
+				train[b] &= ~(1 << c);
 			}
 			else if(a == 3) {
 				train[b] = train[b] << 1;
-				train[b] &= ~(1 << 20);
+				train[b] %= (1 << 20);
 			}
 			else if(a == 4) {
 				train[b] = train[b] >> 1;
 			}
 		}
-		
-		Set<Integer> s = new HashSet<>();
-		for(int i = 1; i <= n; i++) {
-			s.add(train[i]);
+
+		Set<Integer> set = new HashSet<>();
+
+		for(int i = 0; i < n; i++) {
+			set.add(train[i]);
 		}
-		
-		System.out.println(s.size());
-		
-		
+
+		System.out.println(set.size());
+
+
 	}
+
+
 }
 
 //1 i x : i번째 기차에(1 ≤ i ≤ N) x번째 좌석에(1 ≤ x ≤ 20) 사람을 태워라. 이미 사람이 타있다면 , 아무런 행동을 하지 않는다.

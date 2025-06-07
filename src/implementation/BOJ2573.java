@@ -2,147 +2,121 @@ package implementation;
 
 
 import java.util.*;
+import java.io.*;
 
 public class BOJ2573 {
 
 	static int n, m;
 	static int[][] a = new int[304][304];
 	static int[][] visited = new int[304][304];
-	// 바다와 닿아있는 면의 수
-	static int[][] melt = new int[304][304];
-	
+	// 녹을 빙하 계산기
+	static int[][] temp = new int[304][304];
+
 	static int[] dy = {-1, 0, 1, 0};
 	static int[] dx = {0, 1, 0, -1};
-	
-	
-	// 녹을 높이 구하기
-	static void calc(List<Pair> ice) {
-		// 녹을 높이 초기화
+
+	public static void main(String[] args) throws IOException {
+//		Scanner sc = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+
 		for(int i = 0; i < n; i++) {
+			st = new StringTokenizer(br.readLine());
 			for(int j = 0; j < m; j++) {
-				melt[i][j] = 0;
+				a[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-		// 녹을 높이 구하기
-		for(Pair p : ice) {
-			int y = p.y;
-			int x = p.x;
-			
-			for(int i = 0; i < 4; i++) {
-				int ny = y + dy[i];
-				int nx = x + dx[i];
-				
-				if(ny < 0 || nx < 0 || ny >= n || nx >= m) {
-					continue;
-				}
-				if(a[ny][nx] == 0) {
-					melt[y][x]++;
+
+		int ret = 0;
+
+		while(true) {
+
+			temp = new int[304][304];
+			visited = new int[304][304];
+			ret++;
+
+			// 녹을 빙하 계산
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					if (a[i][j] != 0) {
+						int cnt = 0;
+						for (int k = 0; k < 4; k++) {
+							int ny = i + dy[k];
+							int nx = j + dx[k];
+							if (ny < 0 || nx < 0 || ny >= n || nx >= m) {
+								continue;
+							}
+							if (a[ny][nx] == 0) {
+								cnt++;
+							}
+						}
+						temp[i][j] = cnt;
+					}
 				}
 			}
+			// 녹을 빙하 없는지 체크
+			if(check()) {
+				ret = 0;
+				break;
+			}
+
+			// 빙하 녹이기
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					a[i][j] = Math.max(0, a[i][j] - temp[i][j]);
+				}
+			}
+			// 커넥티드 컴포넌트 계산
+			int cp = 0;
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					if (visited[i][j] == 0 && a[i][j] != 0) {
+						dfs(i, j);
+						cp++;
+					}
+				}
+			}
+
+			if (cp >= 2) {
+				break;
+			}
 		}
-		
-		// 녹이기
-		for(Pair p : ice) {
-			int y = p.y;
-			int x = p.x;
-			
-			a[y][x] = Math.max(a[y][x] - melt[y][x], 0);  
-		}
+
+		System.out.println(ret);
 	}
-	
+
 	static void dfs(int y, int x) {
 		visited[y][x] = 1;
-		
+
 		for(int i = 0; i < 4; i++) {
 			int ny = y + dy[i];
 			int nx = x + dx[i];
-			
-			if(ny < 0 || nx < 0 || ny >= n || nx >= m) {
+
+			if (ny < 0 || nx < 0 || ny >= n || nx >= m) {
 				continue;
 			}
-			
+
 			if(visited[ny][nx] == 0 && a[ny][nx] != 0) {
 				dfs(ny, nx);
 			}
 		}
 	}
-	
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		n = sc.nextInt();
-		m = sc.nextInt();
-		
-		List<Pair> ice = new ArrayList<>();
-		
+
+	// 녹을 빙하가 없을때
+	static boolean check() {
 		for(int i = 0; i < n; i++) {
 			for(int j = 0; j < m; j++) {
-				a[i][j] = sc.nextInt();
-				if(a[i][j] != 0) {
-					ice.add(new Pair(i, j));
+				if(temp[i][j] != 0) {
+					return false;
 				}
-			}
-		}
-		
-		int ret = 0;
-		
-		
-		while(true) {
-			
-
-			
-			// 두 덩이 이상인지 확인
-			int cc = 0;
-			for(int i = 0; i < n; i++) {
-				for(int j = 0; j < m; j++) {
-					visited[i][j] = 0;
-				}
-			}
-			for(int i = 0; i < n; i++) {
-				for(int j = 0; j < m; j++) {
-					if(visited[i][j] == 0 && a[i][j] != 0) {
-						dfs(i, j);
-						cc++;
-					}
-				}
-			}
-			if(cc >= 2) {
-				break;
-			}
-			
-			// 다 녹았는지 확인
-			if(check(ice) == true) {
-				ret = 0;
-				break;
-			}
-			
-			
-			
-			calc(ice);
-			ret++;
-		}
-		
-		System.out.println(ret);
-		
-	}
-	
-	// true면 다 녹은거
-	static boolean check(List<Pair> ice) {
-		for(Pair p : ice) {
-			if(a[p.y][p.x] != 0) {
-				return false;
 			}
 		}
 		return true;
 	}
-
-	static class Pair {
-		int y;
-		int x;
-
-		public Pair(int y, int x) {
-			this.y = y;
-			this.x = x;
-		}
-	}
 }
+
+// 녹을 빙하를 계산한다
+// 빙하를 녹인다
+// 커넥티드 컴포넌트가 2개이상이면 멈춘다

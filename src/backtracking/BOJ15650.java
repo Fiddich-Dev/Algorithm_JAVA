@@ -6,6 +6,7 @@ import java.io.*;
 public class BOJ15650 {
 
     static int n, m;
+    static StringBuilder sb = new StringBuilder();
 
 
     public static void main(String[] args) throws IOException {
@@ -17,21 +18,24 @@ public class BOJ15650 {
 
         List<Integer> v = new ArrayList<>();
         combi(-1, v);
+
+        System.out.print(sb);
     }
 
     static void combi(int start, List<Integer> b) {
         if(b.size() == m) {
             for(int i : b) {
-                System.out.print(i + " ");
+                sb.append(i).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
+
             return;
         }
 
         for(int i = start+1; i < n; i++) {
             b.add(i+1);
             combi(i, b);
-            b.remove(b.size() - 1);
+            b.remove(b.size()-1);
         }
     }
 }

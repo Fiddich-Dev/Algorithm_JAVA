@@ -1,47 +1,59 @@
 package implementation;
 
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class BOJ2167 {
+
     static int n, m;
     static int[][] a = new int[304][304];
-    static int k;
+    static int[][] psum = new int[304][304];
 
 
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m = sc.nextInt();
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
         for(int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
             for(int j = 0; j < m; j++) {
-                a[i][j] = sc.nextInt();
+                a[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        k = sc.nextInt();
+
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= m; j++) {
+                psum[i][j] = a[i-1][j-1] + psum[i-1][j] + psum[i][j-1] - psum[i-1][j-1];
+            }
+        }
+
+
+        st = new StringTokenizer(br.readLine());
+        int k = Integer.parseInt(st.nextToken());
+
+
+
         for(int i = 0; i < k; i++) {
-            Pair start = new Pair(sc.nextInt()-1, sc.nextInt()-1);
-            Pair end = new Pair(sc.nextInt()-1, sc.nextInt()-1);
+            st = new StringTokenizer(br.readLine());
+            int sy = Integer.parseInt(st.nextToken());
+            int sx = Integer.parseInt(st.nextToken());
+            int ey = Integer.parseInt(st.nextToken());
+            int ex = Integer.parseInt(st.nextToken());
 
-            int sum = 0;
-            for(int j = start.y; j <= end.y; j++) {
-                for(int q = start.x; q <= end.x; q++) {
-                    sum += a[j][q];
-                }
-            }
+            int ret = 0;
 
-            System.out.println(sum);
+            System.out.println(psum[ey][ex] - psum[ey][sx-1] - psum[sy-1][ex] + psum[sy-1][sx-1]);
         }
+
+
+
     }
 
-    static class Pair {
-        int y;
-        int x;
-
-        public Pair(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-    }
 }
+
+
+
 

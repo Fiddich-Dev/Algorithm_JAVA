@@ -5,6 +5,7 @@ import java.io.*;
 
 public class BOJ13023 {
 
+    static int ret = 0;
     static int n, m;
     static List<Integer>[] adj = new ArrayList[2004];
     static int[] visited = new int[2004];
@@ -15,8 +16,6 @@ public class BOJ13023 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
@@ -36,70 +35,43 @@ public class BOJ13023 {
 
 
         for(int i = 0; i < n; i++) {
+
+            if(ret == 1) {
+                break;
+            }
+
             for(int j = 0; j < 2004; j++) {
                 visited[j] = 0;
             }
-            bfs(i);
-            if(visited[i+1] != 0) {
 
-            }
+            visited[i] = 1;
+            dfs(i, 1);
+
         }
-        System.out.println(0);
 
 
-//        System.out.println(dfs(1));
+        System.out.println(ret);
 
-//        if(check()) {
-//            System.out.println(1);
-//        }
-//        else {
-//            System.out.println(0);
-//        }
 
     }
 
-    static boolean check() {
-        for(int i = 0; i < 2004; i++) {
-            visited[i] = 0;
+    static void dfs(int here, int depth) {
+        if(ret == 1) {
+            return;
         }
-        for(int i = 0; i < n; i++) {
-            if(dfs(i) != n) {
-                return false;
-            }
+
+        if(depth == 5) {
+            ret = 1;
+            return;
         }
-        return true;
-    }
-
-
-    static int dfs(int here) {
-        visited[here] = 1;
-        int cnt = 1;
 
         for(int there : adj[here]) {
             if(visited[there] == 0) {
-                cnt += dfs(there);
+                visited[there] = 1;
+                dfs(there, depth+1);
+                visited[there] = 0;
             }
         }
-        return cnt;
-    }
-
-    static void bfs(int here) {
-        int ret = 1;
-        visited[here] = 1;
-        Queue<Integer> q = new LinkedList<>();
-        q.add(here);
-
-        while(!q.isEmpty()) {
-            int now = q.poll();
-            for(int there : adj[now]) {
-                if(visited[there] == 0) {
-                    q.add(there);
-                    visited[there] = visited[now] + 1;
-                    ret = Math.max(ret, visited[there]);
-                }
-            }
-        }
-
     }
 
 

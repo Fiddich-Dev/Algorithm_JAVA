@@ -5,40 +5,28 @@ import java.util.*;
 public class BOJ1715 {
 
     static int n;
-    static long[] dp = new long[100004];
-
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
 
-        PriorityQueue<Long> pq = new PriorityQueue<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
         for(int i = 0; i < n; i++) {
-            Long temp = sc.nextLong();
+            int temp = sc.nextInt();
             pq.add(temp);
         }
 
-        int cnt = 0;
+        int sum = 0;
 
-        while(pq.size() >= 2) {
-            long a = pq.poll();
-            long b = pq.poll();
+        while(pq.size() > 1) {
+            int temp1 = pq.poll();
+            int temp2 = pq.poll();
+            sum += temp1 + temp2;
+            pq.add(temp1 + temp2);
 
-
-
-            pq.add(a + b);
-
-            dp[cnt] = a + b;
-            cnt++;
-        }
-
-        long sum = 0;
-        for(int i = 0; i < cnt; i++) {
-            sum += dp[i];
         }
 
         System.out.println(sum);
-
     }
 }
