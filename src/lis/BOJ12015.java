@@ -1,9 +1,8 @@
 package lis;
 
 import java.util.*;
-import java.io.*;
 
-public class BOJ11053 {
+public class BOJ12015 {
 
     static int n;
 
@@ -24,30 +23,26 @@ public class BOJ11053 {
             if(pos == len) {
                 len++;
             }
-            lis[pos] = a[i];
+            lis[len] = a[i];
         }
 
         System.out.println(len);
-
-
     }
 
+    // target이상의 값 찾기
     static int lower_bound(int target, int len, int[] lis) {
         int l = 0;
         int r = len;
 
         while(l < r) {
             int mid = (l + r) / 2;
-            if(target > lis[mid]) {
-                l = mid + 1;
-            }
-            else {
+            if(target < lis[mid]) {
                 r = mid;
             }
+            else {
+                l = mid +1;
+            }
         }
-
         return r;
     }
-
 }
-
