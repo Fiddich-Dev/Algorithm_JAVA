@@ -30,7 +30,7 @@ public class createTimetable {
     // 원하는 전체 학점
 
     // 원하는 전공 개수
-    static int targetMajorCnt = 5;
+    static int targetMajorCnt = 2;
 
     // 원하는 교양 개수
     // 일단 0 ~ 3개까지 가능
@@ -184,9 +184,9 @@ public class createTimetable {
 
         List<Lecture> v = new ArrayList<>();
         Pair nowLectureCnt = new Pair(0, 0);
-        v.add(lecture);
-        fillUsedTime(lecture);
-        nowLectureCnt.major++;
+//        v.add(lecture);
+//        fillUsedTime(lecture);
+//        nowLectureCnt.major++;
 
         for(int i = 0; i < 1440; i++) {
             usedTime[4][i] = 1;

@@ -7,75 +7,39 @@ public class BOJ1051 {
 
     static int n, m;
     static int[][] a = new int[54][54];
-    static int ret = Integer.MIN_VALUE;
 
-
-    public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
         for(int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            String s = st.nextToken();
+            String s = sc.next();
             for(int j = 0; j < m; j++) {
-                a[i][j] = s.charAt(j);
+                a[i][j] = s.charAt(j) - '0';
             }
         }
 
-        // 정사각형 최대 길이
-        int mx = Math.min(n, m);
-
+        int ret = -987654321;
 
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < m; j++) {
-
-                for(int k = 0; k < mx; k++) {
-                    int y1 = i;
-                    int x1 = j+k;
-
-                    if(y1 < 0 || x1 < 0 || y1 >= n || x1 >= m) {
-                        continue;
+                for(int k = 0; k < Math.min(n, m); k++) {
+                    if(i+k < n && j+k < m) {
+                        if(check(i, j, k)) {
+                            ret = Math.max(ret, k);
+                        }
                     }
-
-                    int y2 = i+k;
-                    int x2 = j;
-
-                    if(y2 < 0 || x2 < 0 || y2 >= n || x2 >= m) {
-                        continue;
-                    }
-
-                    int y3 = i+k;
-                    int x3 = j+k;
-
-                    if(y3 < 0 || x3 < 0 || y3 >= n || x3 >= m) {
-                        continue;
-                    }
-
-                    if(check(i, j, k) == true) {
-                        ret = Math.max(ret, k+1);
-                    }
-
-
                 }
-
             }
         }
 
-        System.out.println(ret * ret);
-
-
+        System.out.println((ret+1) * (ret+1));
 
     }
 
-    // 4꼭지점이 같으면 true
-    static boolean check(int y, int x, int size) {
-        int num = a[y][x];
-
-        if(a[y+size][x] == num && a[y][x+size] == num && a[y+size][x+size] == num) {
+    static boolean check(int y, int x, int len) {
+        int temp = a[y][x];
+        if(temp == a[y+len][x] && temp == a[y][x+len] && temp == a[y+len][x+len]) {
             return true;
         }
         return false;
