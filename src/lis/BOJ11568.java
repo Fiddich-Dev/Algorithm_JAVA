@@ -5,46 +5,39 @@ import java.util.*;
 public class BOJ11568 {
 
     static int n;
+    static int[] a = new int[1004];
+    static int[] cnt = new int[1004];
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
-        int[] a = new int[n];
-        int[] cnt = new int[n];
-
-        for(int i = 0; i < n; i++) {
+        int[] lis = new int[1004];
+        for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
-            cnt[i] = 1;
         }
 
-        int ret = 0;
         int len = 0;
-
         for(int i = 0; i < n; i++) {
-            // target이상의 값을 찾는다
-            int pos = lower_bound(a[i], len, cnt);
-            // 못찾았을때
+            int pos = lower_bound(a[i], len, lis);
             if(pos == len) {
                 len++;
             }
-            cnt[pos] = a[i];
+            lis[pos] = a[i];
         }
 
         System.out.println(len);
-
     }
 
-    static int lower_bound(int target, int len, int[] cnt) {
+    static int lower_bound(int target, int len, int[] lis) {
         int l = 0;
         int r = len;
-
         while(l < r) {
             int mid = (l + r) / 2;
-            if(cnt[mid] < target) {
-                l = mid + 1;
+            if(target <= lis[mid]) {
+                r = mid;
             }
             else {
-                r = mid;
+                l = mid + 1;
             }
         }
         return r;

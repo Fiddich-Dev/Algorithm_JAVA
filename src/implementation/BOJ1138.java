@@ -3,81 +3,69 @@ package implementation;
 import java.util.*;
 import java.io.*;
 
+
 public class BOJ1138 {
 
     static int n;
-    // i의 키를 가진 사람이 왼쪽에 가지보다 큰 사람이 k명
-    // a[i] = k
-    static int[] a = new int[14];
-    static int[] visited = new int[14];
+    static int[] a = new int[12];
 
-    public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-
-        st = new StringTokenizer(br.readLine());
-        for(int i = 1; i <= n; i++) {
-            a[i] = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        for(int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
         }
 
-        int[] ret = new int[14];
-        combi(1, ret);
+        int[] arr = new int[n];
+        for(int i = 0; i < n; i++) {
+            arr[i] = i;
+        }
+
+        permutation(arr, 0, n, n);
 
     }
 
-    static void combi(int start, int[] ret) {
-        if(start == n+1) {
-            if(check(ret) == true) {
-
-                for (int i = 1; i <= n; i++) {
-                    System.out.print(ret[i] + " ");
-                }
-
-                System.exit(0);
-            }
-            return;
-        }
-        for(int i = a[start]+1; i <= n; i++) {
-            if(visited[i] == 0) {
-                visited[i] = 1;
-                ret[i] = start;
-
-                combi(start+1, ret);
-
-                visited[i] = 0;
-                ret[i] = 0;
-            }
-        }
-    }
-
-    static boolean check(int[] ret) {
-//        for (int i = 1; i <= n; i++) {
-//            System.out.print(ret[i] + " ");
-//        }
-
-        for(int i = 1; i <= n; i++) {
-            int now = ret[i];
+    static boolean check(int[] arr) {
+        for(int i = 0; i < n; i++) {
             int cnt = 0;
-            for(int j = 1; j < i; j++) {
-                if(ret[j] > now) {
+            int now = arr[i];
+            for(int j = 0; j < i; j++) {
+                if(arr[j] > now) {
                     cnt++;
                 }
             }
-//            System.out.println(cnt);
-            if(cnt != a[now]) {
+
+            if(a[now] != cnt) {
                 return false;
             }
+
         }
         return true;
     }
+
+    static void permutation(int[] arr, int depth, int n, int r) {
+        if(depth == r) {
+            if(check(arr)) {
+                for(int i = 0; i < r; i++) {
+                    System.out.print(arr[i]+1 + " ");
+                }
+                System.out.println();
+            }
+            return;
+        }
+        for(int i = depth; i < n; i++) {
+            swap(arr, depth, i);
+            permutation(arr, depth+1, n, r);
+            swap(arr, depth, i);
+        }
+    }
+
+    static void swap(int[] arr, int depth, int i) {
+        int temp = arr[depth];
+        arr[depth] = arr[i];
+        arr[i] = temp;
+    }
 }
 
-// a[1] = 2이면 3번부터 가능
-// a[2] = 1이면 2번부터 가능
-// a[3] = 1이면 2번부터 가능
-// a[4] = 0이면 1번부터 가능
 
 

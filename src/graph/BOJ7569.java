@@ -8,82 +8,73 @@ public class BOJ7569 {
     static int m, n, h;
     static int[][][] a = new int[104][104][104];
     static int[][][] visited = new int[104][104][104];
-
+    static int[] dz = {0, 0, 0, 0, 1, -1};
     static int[] dy = {-1, 0, 1, 0, 0, 0};
     static int[] dx = {0, 1, 0, -1, 0, 0};
-    static int[] dz = {0, 0, 0, 0, 1, -1};
 
-    static List<Status> start = new ArrayList<>();
-
+    // 1 : 익은 토마토, 0 : 안익은 토마토 -1 : 빈칸
+    // 익은 토마토 근처는 익는다
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         m = sc.nextInt();
         n = sc.nextInt();
         h = sc.nextInt();
 
+        Queue<Status> q = new LinkedList<>();
 
         for(int i = 0; i < h; i++) {
             for(int j = 0; j < n; j++) {
                 for(int k = 0; k < m; k++) {
                     a[i][j][k] = sc.nextInt();
                     if(a[i][j][k] == 1) {
-                        start.add(new Status(i, j, k));
+                        q.add(new Status(i, j, k));
                     }
                 }
             }
         }
 
-        Queue<Status> q = new LinkedList<>();
-
-        for(Status s : start) {
-            visited[s.z][s.y][s.x] = 1;
-            q.add(s);
-        }
-
-        int cnt = 0;
+        int ret = 0;
 
         while(true) {
 
-
             Queue<Status> q_temp = new LinkedList<>();
 
-            while(!q.isEmpty()) {
+            while (!q.isEmpty()) {
                 Status now = q.poll();
-                int y = now.y;
-                int x = now.x;
-                int z = now.z;
+                visited[now.z][now.y][now.x] = 1;
 
-                for(int i = 0; i < 6; i++) {
-                    int ny = y + dy[i];
-                    int nx = x + dx[i];
-                    int nz = z + dz[i];
+                for (int i = 0; i < 6; i++) {
+                    int nz = now.z + dz[i];
+                    int ny = now.y + dy[i];
+                    int nx = now.x + dx[i];
 
-                    if(ny < 0 || nx < 0 || nz < 0 || ny >= n || nx >= m || nz >= h) {
+                    if (nz < 0 || ny < 0 || nx < 0 || nz >= h || ny >= n || nx >= m) {
                         continue;
                     }
-//                    if(visited[nz][ny][nx] == 0 && a[nz][ny][nx] == 1) {
-//                        visited[nz][ny][nx] = visited[z][y][x] + 1;
-//                        q.add(new Status(ny, nx, nz));
-//                    }
-                    if(visited[nz][ny][nx] == 0 && a[nz][ny][nx] == 0) {
-                        visited[nz][ny][nx] = visited[z][y][x] + 1;
+                    // 안익은거 만났을때
+                    if (visited[nz][ny][nx] == 0 && a[nz][ny][nx] == 0) {
                         q_temp.add(new Status(nz, ny, nx));
+                        visited[nz][ny][nx] = 1;
                     }
+
                 }
             }
+
+
 
             if(q_temp.isEmpty()) {
                 break;
             }
 
-            q = q_temp;
-            cnt++;
+            ret++;
+            q = q_temp; //익게하기
+
         }
 
         for(int i = 0; i < h; i++) {
             for(int j = 0; j < n; j++) {
                 for(int k = 0; k < m; k++) {
-                    if(a[i][j][k] == 0 && visited[i][j][k] == 0) {
+                    if(visited[i][j][k] == 0 && a[i][j][k] == 0) {
                         System.out.println(-1);
                         return;
                     }
@@ -91,15 +82,16 @@ public class BOJ7569 {
             }
         }
 
-        System.out.println(cnt);
+        System.out.println(ret);
     }
 
     static class Status {
+
         int z;
         int y;
         int x;
 
-        public Status(int z, int y, int x) {
+        Status(int z, int y, int x) {
             this.z = z;
             this.y = y;
             this.x = x;

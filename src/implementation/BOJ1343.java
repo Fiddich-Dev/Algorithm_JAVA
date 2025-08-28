@@ -6,51 +6,34 @@ public class BOJ1343 {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String s = sc.next();
+        int n = sc.nextInt();
 
-        int cntA = 0;
-        int cntB = 0;
-        int temp = 0;
-        String ret = "";
+        int ret = 0;
 
-        for(char c : s.toCharArray()) {
-            if(c == 'X') {
-                temp++;
+        long l = 1;
+        long r = 1;
+
+        while(true) {
+            long sum = (r * (r+1) / 2) - ((l-1) * l / 2);
+
+            if(sum < n) {
+                r++;
             }
-            else if(c == '.') {
-                if(temp % 2 == 1) {
-                    System.out.println(-1);
-                    return;
-                }
-
-                int a = temp / 4;
-                for(int i = 0; i < 4*a; i++) {
-                    ret += 'A';
-                }
-                int b = temp % 4;
-                for(int i = 0; i < b; i++) {
-                    ret += 'B';
-                }
-                ret += '.';
-                temp = 0;
+            else if(sum == n) {
+                ret++;
+                l++;
             }
-        }
+            else {
+                l++;
+            }
 
-        if(temp % 2 == 1) {
-            System.out.println(-1);
-            return;
-        }
-
-        int a = temp / 4;
-        for(int i = 0; i < 4*a; i++) {
-            ret += 'A';
-        }
-        int b = temp % 4;
-        for(int i = 0; i < b; i++) {
-            ret += 'B';
+            if(r == n+1) {
+                break;
+            }
         }
 
         System.out.println(ret);
+
     }
 
 }

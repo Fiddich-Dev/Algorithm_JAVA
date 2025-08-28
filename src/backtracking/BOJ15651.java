@@ -12,14 +12,14 @@ public class BOJ15651 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
+
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
         List<Integer> v = new ArrayList<>();
         go(v);
 
-        System.out.print(sb);
-
+        System.out.print(sb.toString());
     }
 
     static void go(List<Integer> b) {
@@ -30,11 +30,11 @@ public class BOJ15651 {
             sb.append("\n");
             return;
         }
-
         for(int i = 1; i <= n; i++) {
             b.add(i);
             go(b);
             b.remove(b.size()-1);
         }
     }
+
 }

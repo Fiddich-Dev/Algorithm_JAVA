@@ -4,27 +4,36 @@ import java.util.*;
 
 public class BOJ2503 {
 
-    static int n;
     static int[] a = new int[1004];
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
 
-        for(int i = 0; i < 1004; i++) {
-            a[i] = i;
+    public static void main(String[] args) {
+
+        for(int i = 100; i < 1000; i++) {
+            if(check(i) == true) {
+                a[i] = i;
+//                System.out.println(i);
+            }
         }
 
+
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
         for(int i = 0; i < n; i++) {
             int num = sc.nextInt();
             int s = sc.nextInt();
             int b = sc.nextInt();
 
-            solve(num, s, b);
+            for(int j = 100; j < 1000; j++) {
+                if(a[j] != 0) {
+                    if(isValid(a[j], num, s, b)) {
 
-//            for(int j = 100; j < 1000; j++) {
-//                System.out.println(a[j]);
-//            }
+                    }
+                    else {
+                        a[j] = 0;
+                    }
+                }
+            }
         }
 
         int ret = 0;
@@ -33,63 +42,67 @@ public class BOJ2503 {
                 ret++;
             }
         }
-
         System.out.println(ret);
+
     }
 
-    static void solve(int num, int s, int b) {
-        for(int i = 100; i < 1000; i++) {
-            if(a[i] == 0) {
-                continue;
-            }
+    static boolean isValid(int value, int num, int s, int b) {
+        int v1 = value % 10;
+        int v2 = (value / 10) % 10;
+        int v3 = (value / 100) % 10;
 
-            // 중복으로 고른 수 제거
-            int[] visited = new int[10];
-            int q = i / 100;
-            int w = i / 10 % 10;
-            int e = i % 10;
-            visited[q] += 1;
-            visited[w] += 1;
-            visited[e] += 1;
-            if(visited[0] != 0) {
-                a[i] = 0;
-                continue;
-            }
+        int n1 = num % 10;
+        int n2 = (num / 10) % 10;
+        int n3 = (num / 100) % 10;
 
-            if(visited[q] > 1|| visited[w] > 1 || visited[e] > 1) {
-                a[i] = 0;
-                continue;
-            }
-            // 조건에 맞지 않는 수 제거
-            int cntS = 0;
-            int cntB = 0;
-            String tempI = String.valueOf(i);
-            String tempNum = String.valueOf(num);
+        int[] v = {v1, v2, v3};
+        int[] nu = {n1, n2, n3};
 
+        int retS = 0;
+        int retB = 0;
+
+        for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                for(int k = 0; k < 3; k++) {
-                    if(tempNum.charAt(j) == tempI.charAt(k)) {
-                        if(j == k) {
-                            cntS++;
-                            break;
-                        }
-                        else {
-                            cntB++;
-                            break;
-                        }
+                if(i == j) {
+                    if(v[i] == nu[j]) {
+                        retS++;
+                        break;
+                    }
+                }
+                else {
+                    if(v[i] == nu[j]) {
+                        retB++;
+                        break;
                     }
                 }
             }
+        }
 
-            if(cntS != s || cntB != b) {
-                a[i] = 0;
-            }
-
+        if(s == retS && b == retB) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
 
+    static boolean check(int num) {
+        int q = num % 10;
+        int w = (num / 10) % 10;
+        int e = (num / 100) % 10;
 
+        if(q == 0 || w == 0 || e == 0) {
+            return false;
+        }
+
+        if(q == w || w == e || q == e) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
 }
 

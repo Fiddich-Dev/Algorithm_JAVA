@@ -18,24 +18,23 @@ public class BOJ15652 {
         List<Integer> v = new ArrayList<>();
         go(1, v);
 
-        System.out.print(sb);
-
     }
 
     static void go(int start, List<Integer> b) {
         if(b.size() == m) {
             for(int i : b) {
-                sb.append(i).append(" ");
+                System.out.print(i + " ");
             }
-            sb.append("\n");
+            System.out.println();
             return;
         }
-
         for(int i = start; i <= n; i++) {
             b.add(i);
             go(i, b);
             b.remove(b.size()-1);
         }
     }
+
+
 
 }

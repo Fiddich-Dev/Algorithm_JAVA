@@ -4,25 +4,32 @@ import java.util.*;
 
 public class BOJ1789 {
 
-    static long s;
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        s = sc.nextLong();
+        long s = sc.nextLong();
 
-        long cnt = 0;
+        long now = 0;
+        long i = 1;
         while(true) {
-            cnt++;
-            long temp = cnt * (cnt+1) / 2;
-            if(temp > s) {
-                cnt--;
+
+            now += i;
+
+            if(now > s) {
+                i--;
                 break;
             }
+            else if(now == s) {
+                break;
+            }
+
+
+            i++;
         }
 
-        System.out.println(cnt);
+        System.out.println(i);
     }
 }
+
 
 
 

@@ -5,45 +5,47 @@ import java.util.*;
 public class BOJ2470 {
 
     static int n;
+    static List<Integer> a = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
-        List<Integer> a = new ArrayList<>();
         for(int i = 0; i < n; i++) {
             int temp = sc.nextInt();
             a.add(temp);
         }
 
+        int dis = Integer.MAX_VALUE;
+
         Collections.sort(a);
 
-        // 절댓값이 가장 작을떄
-        int ret = Integer.MAX_VALUE;
-
-        int num1 = a.get(0);
-        int num2 = a.get(n-1);
-
+        int retL = Integer.MAX_VALUE;
+        int retR = Integer.MIN_VALUE;
 
         int l = 0;
         int r = n-1;
+
         while(l < r) {
-            int temp = a.get(l) + a.get(r);
+            int now = a.get(r) + a.get(l);
 
-            if(Math.abs(temp) < ret) {
-                num1 = a.get(l);
-                num2 = a.get(r);
-                ret = Math.abs(temp);
+            if(Math.abs(now) < dis) {
+                dis = Math.abs(now);
+                retL = l;
+                retR = r;
             }
 
-            if(temp >= 0) {
-                r--;
-            }
-            else {
+            if(now < 0) {
                 l++;
             }
+            else {
+                r--;
+            }
+
+
         }
 
-        System.out.println(num1 + " " + num2);
+        System.out.println(a.get(retL) + " " + a.get(retR));
+
     }
 }
 

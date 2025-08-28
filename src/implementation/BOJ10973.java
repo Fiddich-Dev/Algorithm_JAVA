@@ -4,32 +4,56 @@ import java.util.*;
 
 public class BOJ10973 {
 
+//    static int n;
+    static int[] arr = {1, 2, 3};
+
+
     public static void main(String[] args) {
-        int[] a = {1, 2, 3};
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for(int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
 
-        makePermutation(a, 0);
+        int i = n-1;
+        int j = n-1;
 
-    }
+        while(i > 0 && a[i-1] < a[i]) {
+            i--;
+        }
 
-    static void makePermutation(int[] a, int depth) {
-        if(depth == a.length) {
-            for(int i : a) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
+        if(i <= 0) {
+            System.out.println(-1);
             return;
         }
-        for(int i = depth; i < a.length; i++) {
-            swap(a, depth, i);
-            makePermutation(a, depth+1);
-            swap(a, depth, i);
 
+        while(a[i-1] < a[j]) {
+            j--;
         }
+
+        swap(a, i-1, j);
+
+        List<Integer> temp = new ArrayList<>();
+        for(int q = i; q < n; q++) {
+            temp.add(a[q]);
+        }
+        Collections.sort(temp, Collections.reverseOrder());
+        for(int q = i; q < n; q++) {
+            a[q] = temp.get(q-i);
+        }
+
+
+        for(int q = 0; q < n; q++) {
+            System.out.print(a[q] + " ");
+        }
+        System.out.println();
+
     }
 
-    static void swap(int[] a, int i, int j) {
-        int temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
+    static void swap(int[] a, int depth, int i) {
+        int temp = a[depth];
+        a[depth] = a[i];
+        a[i] = temp;
     }
 }

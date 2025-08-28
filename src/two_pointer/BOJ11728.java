@@ -8,62 +8,59 @@ public class BOJ11728 {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-
-
         List<Integer> a = new ArrayList<>();
         List<Integer> b = new ArrayList<>();
 
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++) {
-            int temp = Integer.parseInt(st.nextToken());
-            a.add(temp);
+            a.add(Integer.parseInt(st.nextToken()));
         }
+
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < m; i++) {
-            int temp = Integer.parseInt(st.nextToken());
-            b.add(temp);
+            b.add(Integer.parseInt(st.nextToken()));
         }
 
         Collections.sort(a);
         Collections.sort(b);
 
+        List<Integer> ret = new ArrayList<>();
         int p1 = 0;
         int p2 = 0;
-
         while(true) {
-
-            if(p1 == n) {
-                sb.append(b.get(p2)).append(" ");
-//                System.out.print(b.get(p2) + " ");
-                p2++;
-            }
-            else if(p2 == m) {
-                sb.append(a.get(p1)).append(" ");
-//                System.out.print(a.get(p1) + " ");
+            if(a.get(p1) < b.get(p2)) {
+                ret.add(a.get(p1));
                 p1++;
             }
             else {
-                if (a.get(p1) <= b.get(p2)) {
-                    sb.append(a.get(p1)).append(" ");
-                    p1++;
-                } else {
-                    sb.append(b.get(p2)).append(" ");
-                    p2++;
-                }
+                ret.add(b.get(p2));
+                p2++;
             }
 
-            if(p1 == n && p2 == m) {
+            if(p1 == n || p2 == m) {
                 break;
             }
         }
-        System.out.println(sb);
+
+        for(int i = p1; i < n; i++) {
+            ret.add(a.get(i));
+        }
+        for(int i = p2; i < m; i++) {
+            ret.add(b.get(i));
+        }
+
+        for(int i = 0; i < n+m; i++) {
+            sb.append(ret.get(i)).append(" ");
+        }
+
+        System.out.println(sb.toString());
     }
 }
+
 
 

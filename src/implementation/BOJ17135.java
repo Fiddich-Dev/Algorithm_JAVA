@@ -6,156 +6,127 @@ import java.io.*;
 public class BOJ17135 {
 
     static int n, m, d;
-    static int[][] a = new int[18][18];
-    static List<Pair> e = new ArrayList<>();
-    static List<Pair> OrgE = new ArrayList<>();
+    static int[][] a = new int[17][17];
+    static int[][] a_temp = new int[17][17];
     static int ret = 0;
-    static int mx = -1;
+    static int cnt = 0;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        d = Integer.parseInt(st.nextToken());
-
-        for(int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < m; j++) {
-                a[i][j] = Integer.parseInt(st.nextToken());
-                if(a[i][j] == 1) {
-                    e.add(new Pair(i, j));
-                    OrgE.add(new Pair(i, j));
-                }
+    // 궁수의 위치 a[n][0] ~ a[n][m-1]
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        d = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                a[i][j] = sc.nextInt();
+                a_temp[i][j] = a[i][j];
             }
         }
 
         List<Integer> v = new ArrayList<>();
-        combi(-1, v);
+        go(-1, v);
 
-        System.out.println(mx);
 
+        System.out.println(ret);
     }
 
-    // 궁수 배치
-    static void combi(int start, List<Integer> b) {
-        if(b.size() == 3) {
-            // 적 초기화
-            e = new ArrayList<>();
-            for(Pair p : OrgE) {
-                e.add(new Pair(p.y, p.x)); // death는 기본 false
-            }
+    // 궁수 배치하기
+    static void go(int start, List<Integer> b) {
+        if (b.size() == 3) {
+            cnt = 0;
 
-            ret = 0;
-
-            while(true) {
-                // 공격하기
-                attack(b);
-                // 이동하기
-                move();
-
-                // 다 죽어있는지 확인
-                if(check() == true) {
-                    break;
+            for(int i = 0; i < n; i++) {
+                for(int j = 0; j < m; j++) {
+                    a[i][j] = a_temp[i][j];
                 }
             }
 
-            mx = Math.max(mx, ret);
+            List<Pair> people = new ArrayList<>();
 
+            people.add(new Pair(n, b.get(0)));
+            people.add(new Pair(n, b.get(1)));
+            people.add(new Pair(n, b.get(2)));
+
+            for(int i = 0; i < n; i++) {
+                atk(people);
+                move();
+            }
+
+            ret = Math.max(ret, cnt);
             return;
         }
-        for(int i = start+1; i < m; i++) {
+        for (int i = start + 1; i < m; i++) {
             b.add(i);
-            combi(i, b);
-            b.remove(b.size()-1);
-        }
-    }
-
-    static boolean check() {
-        for(Pair p : e) {
-            if(!p.death) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    static void move() {
-        for(Pair p : e) {
-            if(!p.death) {
-                p.y++;
-                if(p.y == n) {
-                    p.death = true;
-                }
-            }
+            go(i, b);
+            b.remove(b.size() - 1);
         }
     }
 
     // 공격
-    static void attack(List<Integer> b) {
+    static void atk(List<Pair> people) {
+        List<Pair> e = new ArrayList<>();
 
-        Pair[] targets = new Pair[3];
-        // 0일떄 조심
-        int[] diss = {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
+        // 적 찾기
+        for(Pair p : people) {
+            int dis = 987654321;
+            int y = -1;
+            int x = -1;
 
-        for(int i = 0; i < 3; i++) {
-            // 궁수 위치
-            int y = n;
-            int x = b.get(i);
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
 
-            for(Pair p : e) {
-
-                if(p.death) {
-                    continue;
-                }
-
-                // 적과의 거리
-                int dis = Math.abs(y - p.y) + Math.abs(x - p.x);
-                // 적을 공격할수 있다면
-                if(dis <= d) {
-                    // 더 가까운 적을 찾았을때
-                    if(diss[i] > dis) {
-                        diss[i] = dis;
-                        targets[i] = p;
-                    }
-                    // 거리가 같은 적을 찾았을때
-                    else if(diss[i] == dis) {
-                        // 새로 찾은 적이 더 오른쪽에 있을때
-                        if(targets[i].x > p.x) {
-                            targets[i] = p;
+                    if(a[i][j] == 1) {
+                        // 적과의 거리
+                        int temp = Math.abs(p.y - i) + Math.abs(p.x - j);
+                        if(temp < dis && temp <= d) {
+                            dis = temp;
+                            y = i;
+                            x = j;
+                        }
+                        else if(temp == dis && j < x && temp <= d) {
+                            y = i;
+                            x = j;
                         }
                     }
+
                 }
             }
+
+            if(y != -1 && x != -1) {
+                e.add(new Pair(y, x));
+            }
+
         }
 
+//        System.out.println(e.size());
 
+        for(Pair p : e) {
+            if(a[p.y][p.x] == 1) {
+                a[p.y][p.x] = 0;
 
-        for(Pair p : targets) {
-            if(p == null) {
-                continue;
-            }
-            for(Pair enemy : e) {
-                if(p.y == enemy.y && p.x == enemy.x) {
-                    if(!enemy.death) {
-                        enemy.death = true;
-                        ret++;
-                        break;
-                    }
-                }
+                cnt++;
             }
         }
     }
 
+    // 1칸 전진
+    static void move() {
+        for(int i = n-2; i >= 0; i--) {
+            for(int j = 0; j < m; j++) {
+                a[i+1][j] = a[i][j];
+            }
+        }
 
-
+        for(int j = 0; j < m; j++) {
+            a[0][j] = 0;
+        }
+    }
 
 
     static class Pair {
         int y;
         int x;
-        boolean death = false;
 
         public Pair(int y, int x) {
             this.y = y;

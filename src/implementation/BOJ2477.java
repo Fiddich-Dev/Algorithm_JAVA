@@ -5,46 +5,38 @@ import java.io.*;
 
 public class BOJ2477 {
 
-    static int n;
-    static int maxR, maxC;
-    static int retR, retC;
-
-    static int[] dir = new int[6];
-    static int[] l = new int[6];
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
+        int n = sc.nextInt();
+        Pair[] a = new Pair[6];
+        for(int i = 0; i < 6; i++ ) {
+            int dir = sc.nextInt();
+            int l = sc.nextInt();
 
-        for(int i = 0; i < 6; i++) {
-            dir[i] = sc.nextInt();
-            l[i] = sc.nextInt();
+            a[i] = new Pair(dir, l);
         }
 
-        for(int i = 0; i < 6; i++) {
-            if(dir[i] == 1 || dir[i] == 2) {
-                if(maxC <= l[i]) {
-                    maxC = l[i];
-                    retR = Math.min(l[(i+1) % 6], l[(i+5) % 6]);
-                }
-            }
+        int ret = 0;
 
-            else if(dir[i] == 3 || dir[i] == 4) {
-                if(maxR <= l[i]) {
-                    maxR = l[i];
-                    retC = Math.min(l[(i+1) % 6], l[(i+5) % 6]);
-                }
+        for(int i = 0; i < 6; i++) {
+            int start = i;
+            if(a[start].dir == a[(start + 2) % 6].dir && a[(start+1) % 6].dir == a[(start+3) % 6].dir) {
+                ret = a[(start+4) % 6].l * a[(start+5) % 6].l - a[(start+1) % 6].l * a[(start+2) % 6].l;
             }
         }
 
-//        System.out.println(maxR);
-//        System.out.println(maxC);
-//        System.out.println(retR);
-//        System.out.println(retC);
+        System.out.println(ret * n);
+    }
 
-        System.out.println((maxR * maxC - (maxR - retR) * (maxC - retC)) * n);
+    static class Pair {
+        int dir;
+        int l;
+
+        public Pair(int dir, int l) {
+            this.dir = dir;
+            this.l = l;
+        }
     }
 }
 
-// 가로 최대, 최소 구하고 세로 최대, 최소 구하고
-// 가로 최대 * 세로 최대 - 가로 최소 * 세로 최소

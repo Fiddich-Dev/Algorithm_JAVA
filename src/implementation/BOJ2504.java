@@ -4,60 +4,63 @@ import java.util.*;
 
 public class BOJ2504 {
 
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s = sc.next();
+        Stack<Character> stk = new Stack<>();
 
         int ret = 0;
         int value = 1;
 
-        Stack<Character> stk = new Stack<>();
-
         for(int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            if(ch == '(') {
-                stk.push(ch);
+            char now = s.charAt(i);
+
+            if(now == '(') {
+                stk.push(now);
                 value *= 2;
             }
-            else if(ch == '[') {
-                stk.push(ch);
+            else if(now == '[') {
+                stk.push(now);
                 value *= 3;
             }
-            else if(ch == ')') {
-
-                if(stk.isEmpty() || stk.peek() != '(') {
+            else if(now == ')') {
+                if(!stk.isEmpty() && stk.peek().equals('(')) {
+                    stk.pop();
+                    char prev = s.charAt(i-1);
+                    if(prev == '(') {
+                        ret += value;
+                    }
+                    value /= 2;
+                }
+                else {
                     System.out.println(0);
                     return;
                 }
-                if(s.charAt(i-1) == '(') {
-                    ret += value;
-                }
-                stk.pop();
-                value /= 2;
-
             }
-            else if(ch == ']') {
-                if(stk.isEmpty() || stk.peek() != '[') {
+            else if(now == ']') {
+                if(!stk.isEmpty() && stk.peek().equals('[')) {
+                    stk.pop();
+                    char prev = s.charAt(i-1);
+                    if(prev == '[') {
+                        ret += value;
+                    }
+                    value /= 3;
+                }
+                else {
                     System.out.println(0);
                     return;
                 }
-                if(s.charAt(i-1) == '[') {
-                    ret += value;
-                }
-                stk.pop();
-                value /= 3;
             }
         }
 
-        if(stk.isEmpty()) {
-            System.out.println(ret);
+        if(!stk.isEmpty()) {
+            System.out.println(0);
             return;
         }
 
-        System.out.println(0);
+        System.out.println(ret);
     }
 }
 
 
-//2*(2 + 3*3) + 2*3
+// (()[[]])([])

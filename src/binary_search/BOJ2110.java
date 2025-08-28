@@ -4,28 +4,31 @@ import java.util.*;
 
 public class BOJ2110 {
 
+    static int n, c;
+    static List<Integer> a = new ArrayList<>();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int c = sc.nextInt();
-
-        int[] a = new int[n];
-
+        n = sc.nextInt();
+        c = sc.nextInt();
         for(int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
+            int temp = sc.nextInt();
+            a.add(temp);
         }
-        Arrays.sort(a);
+
+        Collections.sort(a);
 
         int l = 1;
-        int r = a[n-1] - a[0];
+        int r = a.get(n-1) - a.get(0);
 
         int ret = Integer.MIN_VALUE;
 
         while(l <= r) {
             int mid = (l + r) / 2;
-            if(check(a, mid, c)) {
+
+            if(check(mid) == true) {
                 l = mid + 1;
-                ret = mid;
+                ret = Math.max(ret, mid);
             }
             else {
                 r = mid - 1;
@@ -35,24 +38,24 @@ public class BOJ2110 {
         System.out.println(ret);
     }
 
-    static boolean check(int[] a, int mid, int c) {
-        int cnt = 1;
-        int now = a[0];
-
-        for(int i = 1; i < a.length; i++) {
-            if(a[i] - now >= mid) {
+    static boolean check(int mid) {
+        int cnt = 1; // mid이상의 간격으로 놓은 공유기 개수
+        int now = a.get(0); // 마지막으로 놓은 공유기의 위치
+        for(int i = 1; i < n; i++) {
+            if(a.get(i) - now >= mid) {
                 cnt++;
-                now = a[i];
+                now = a.get(i);
             }
         }
-        // mid가 충분히 작다
+
         if(cnt >= c) {
             return true;
         }
-        // mid가 너무 크다
         else {
             return false;
         }
     }
-
 }
+// mid는 공유기사이의 최소거리
+// mid보다 크거나 같으면 가능
+// mid보다 작으면 안됨

@@ -6,75 +6,73 @@ import java.io.*;
 public class BOJ20055 {
 
     static int n, k;
-    static int cnt = 0;
-    // 내구도
-    static int[] a = new int[204];
-    // 로봇위치에 1
-    static int[] b = new int[104];
-    static int ret = 0;
+    static int[] a;
+    static int[] r;
 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        k = sc.nextInt();
+        a = new int[2*n];
+        r = new int[n];
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-        k = Integer.parseInt(st.nextToken());
-
-        st = new StringTokenizer(br.readLine());
         for(int i = 0; i < 2*n; i++) {
-            a[i] = Integer.parseInt(st.nextToken());
+            a[i] = sc.nextInt();
         }
-
+        int step = 0;
         while(true) {
-            ret++;
+            step++;
 
-            // 레일 회전
-            int temp = a[2*n - 1];
-            for(int i = 2*n-2; i >= 0; i--) {
-                a[i+1] = a[i];
-            }
-            a[0] = temp;
+            // 벨트와 로봇 함꼐 회전
+            roll();
 
-            // 로봇도 같이
-            for(int i = n-2; i >= 0; i--) {
-                b[i+1] = b[i];
-            }
-            b[0] = 0;
-            b[n-1] = 0;
+            move();
 
-            // 로봇이 움질일수 있으면
-            for(int i = n-2; i >= 0; i--) {
-                if(b[i] == 1 && a[i+1] > 0 && b[i+1] == 0) {
-                    a[i+1]--;
-                    if(a[i+1] == 0) {
-                        cnt++;
-                    }
-                    b[i+1] = 1;
-                    b[i] = 0;
-                }
-            }
-            b[n-1] = 0;
-
-            if(a[0] != 0) {
-                b[0] = 1;
+            if(a[0] > 0) {
+                r[0] = 1;
                 a[0]--;
-                if(a[0] == 0) {
+            }
+
+            int cnt = 0;
+            for(int i = 0; i < 2*n; i++) {
+                if(a[i] == 0) {
                     cnt++;
                 }
             }
-
-
-
             if(cnt >= k) {
                 break;
             }
 
         }
 
-        System.out.println(ret);
-
+        System.out.println(step);
     }
+
+    static void roll() {
+        int temp = a[2*n - 1];
+        for(int i = 2*n-2; i >= 0; i--) {
+            a[i+1] = a[i];
+        }
+        a[0] = temp;
+
+        for(int i = n-2; i >= 0; i--) {
+            r[i+1] = r[i];
+        }
+        r[n-1] = 0;
+        r[0] = 0;
+    }
+
+    static void move() {
+        for(int i = n-2; i >= 0; i--) {
+            if(r[i] == 1 && r[i+1] == 0 && a[i+1] > 0) {
+                r[i] = 0;
+                r[i+1] = 1;
+                a[i+1]--;
+            }
+        }
+        r[n-1] = 0;
+    }
+
 }
 
 

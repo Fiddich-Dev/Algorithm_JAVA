@@ -4,38 +4,41 @@ import java.util.*;
 
 public class BOJ5874 {
 
-    static String s = "";
-    static List<Integer> back = new ArrayList<>();
-    static List<Integer> front = new ArrayList<>();
+    static int[] front = new int[50004];
 
+    // a[n] = 현재위치까지의 다리 누적합
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        s = sc.next();
+        String s = sc.next();
 
-        for(int i = 0; i < s.length()-1; i++) {
-            if(s.charAt(i) == '(' && s.charAt(i+1) == '(') {
-                back.add(i);
+        int frontSum = 0;
+
+        for(int i = 1; i < s.length(); i++) {
+            char a = s.charAt(i-1);
+            char b = s.charAt(i);
+
+            if(a == ')' && b == ')') {
+                frontSum++;
             }
-            else if(s.charAt(i) == ')' && s.charAt(i+1) == ')') {
-                front.add(i);
-            }
+            front[i] = frontSum;
         }
 
         int ret = 0;
 
-        for(int i = 0; i < back.size(); i++) {
-            for(int j = 0; j < front.size(); j++) {
-//                back.get(i)보다 front.get(j)가 크면됨
-                if(back.get(i) < front.get(j)) {
-                    ret += front.size() - j;
-                    break;
-                }
+        for(int i = 1; i < s.length(); i++) {
+            char a = s.charAt(i-1);
+            char b = s.charAt(i);
+            if(a == '(' && b == '(') {
+                ret += front[s.length()-1] - front[i];
             }
+
         }
 
         System.out.println(ret);
+
     }
 }
+
 
 

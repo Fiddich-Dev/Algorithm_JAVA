@@ -6,32 +6,26 @@ import java.io.*;
 public class BOJ8979 {
 
     static int n, k;
-    static List<Status> arr = new ArrayList<>();
 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        k = sc.nextInt();
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-        k = Integer.parseInt(st.nextToken());
-
+        List<Status> a = new ArrayList<>();
 
         for(int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
-            int d = Integer.parseInt(st.nextToken());
-            arr.add(new Status(a, b, c, d));
+            int q = sc.nextInt();
+            int w = sc.nextInt();
+            int e = sc.nextInt();
+            int r = sc.nextInt();
+
+            a.add(new Status(q, w, e, r));
         }
 
-        arr.sort((s1, s2) -> {
+        a.sort((s1, s2) -> {
             if(s1.g == s2.g) {
                 if(s1.s == s2.s) {
-//                    if(s1.b == s2.b) {
-//                        return s2.num - s1.num;
-//                    }
                     return s2.b - s1.b;
                 }
                 return s2.s - s1.s;
@@ -39,7 +33,33 @@ public class BOJ8979 {
             return s2.g - s1.g;
         });
 
-        System.out.println(arr.get(k-1).num);
+        // 등수
+        List<Integer> rank = new ArrayList<>();
+        int now = 1;
+        rank.add(now);
+        for(int i = 1; i < n; i++) {
+            if(isEqual(a.get(i-1), a.get(i))) {
+                rank.add(now);
+            }
+            else {
+                now = i+1;
+                rank.add(now);
+            }
+        }
+
+        for(int i = 0; i < n; i++){
+            if(a.get(i).num == k) {
+                System.out.println(rank.get(i));
+                return;
+            }
+        }
+    }
+
+    static boolean isEqual(Status s1, Status s2) {
+        if(s1.g == s2.g && s1.s == s2.s && s1.b == s2.b) {
+            return true;
+        }
+        return false;
     }
 
     static class Status {

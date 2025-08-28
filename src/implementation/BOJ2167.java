@@ -5,51 +5,34 @@ import java.io.*;
 
 public class BOJ2167 {
 
-    static int n, m;
+    static int n , m;
     static int[][] a = new int[304][304];
-    static int[][] psum = new int[304][304];
 
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
         for(int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
             for(int j = 0; j < m; j++) {
-                a[i][j] = Integer.parseInt(st.nextToken());
+                a[i][j] = sc.nextInt();
             }
         }
 
-        for(int i = 1; i <= n; i++) {
-            for(int j = 1; j <= m; j++) {
-                psum[i][j] = a[i-1][j-1] + psum[i-1][j] + psum[i][j-1] - psum[i-1][j-1];
-            }
-        }
-
-
-        st = new StringTokenizer(br.readLine());
-        int k = Integer.parseInt(st.nextToken());
-
-
-
+        int k = sc.nextInt();
         for(int i = 0; i < k; i++) {
-            st = new StringTokenizer(br.readLine());
-            int sy = Integer.parseInt(st.nextToken());
-            int sx = Integer.parseInt(st.nextToken());
-            int ey = Integer.parseInt(st.nextToken());
-            int ex = Integer.parseInt(st.nextToken());
+            int q = sc.nextInt() - 1;
+            int w = sc.nextInt() - 1;
+            int e = sc.nextInt() - 1;
+            int r = sc.nextInt() - 1;
 
             int ret = 0;
-
-            System.out.println(psum[ey][ex] - psum[ey][sx-1] - psum[sy-1][ex] + psum[sy-1][sx-1]);
+            for(int j = q; j <= e; j++) {
+                for(int l = w; l <= r; l++) {
+                    ret += a[j][l];
+                }
+            }
+            System.out.println(ret);
         }
-
-
-
     }
 
 }

@@ -6,54 +6,41 @@ import java.io.*;
 public class BOJ15922 {
 
     static int n;
+    static List<Pair> a = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-        List<Pair> a = new ArrayList<>();
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
         for(int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            a.add(new Pair(start, end));
+            int s = sc.nextInt();
+            int e = sc.nextInt();
+            a.add(new Pair(s, e));
         }
 
-        a.sort((p1, p2) -> {
-            return p1.start - p2.start;
-        });
-
-        int ret = 0;
-
-        int start = a.get(0).start;
-        int end = a.get(0).end;
-
-        for(int i = 1; i < a.size(); i++) {
-            // 이어 질때
-            if(end >= a.get(i).start) {
-                end = Math.max(end, a.get(i).end);
+        int start = a.get(0).s;
+        int end = a.get(0).e;
+        int ret = end - start;
+        for(int i = 1; i < n; i++) {
+            if(a.get(i).e <= end) {
+                continue;
             }
 
-            // 안이어질때
-            else if(end < a.get(i).start) {
-                ret += end - start;
-                start = a.get(i).start;
-                end = a.get(i).end;
-            }
+            int s = Math.max(end, a.get(i).s);
+            int e = a.get(i).e;
+            ret += e - s;
+            end = e;
         }
-        ret += end - start;
 
         System.out.println(ret);
     }
 
     static class Pair {
-        int start;
-        int end;
+        int s;
+        int e;
 
-        public Pair(int start, int end) {
-            this.start = start;
-            this.end = end;
+        public Pair(int s, int e) {
+            this.s = s;
+            this.e = e;
         }
     }
 }

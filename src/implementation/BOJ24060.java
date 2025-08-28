@@ -1,78 +1,81 @@
 package implementation;
 
 import java.util.*;
+import java.io.*;
 
 public class BOJ24060 {
 
+    static int n, k;
+    static int[] a = new int[500004];
+    static int[] temp = new int[500004];
+    static int ret = 0;
     static int cnt = 0;
-    static int stop;
-    static int ret = -1;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        stop = k;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int[] a = new int[n];
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
+            a[i] = Integer.parseInt(st.nextToken());
         }
 
-        mergeSort(a, 0, n-1);
+        merge_sort(0, n-1);
 
-        System.out.println(ret);
+        if(cnt < k) {
+            System.out.println(-1);
+        }
+        else {
+            System.out.println(ret);
+        }
 
     }
 
-    static void mergeSort(int[] a, int l, int r) {
+    static void merge_sort(int l, int r) {
         if(l < r) {
             int mid = (l + r) / 2;
-
-            mergeSort(a, l, mid);
-            mergeSort(a, mid+1, r);
-
-            merge(a, l, mid, r);
+            merge_sort(l, mid);
+            merge_sort(mid + 1, r);
+            merge(l, r, mid);
         }
     }
 
-    static void merge(int[] a, int l, int mid, int r) {
+    static void merge(int l, int r, int mid) {
+        int now1 = l;
+        int now2 = mid+1;
+        int idx = 0;
 
-        int[] temp = new int[r - l + 1];
-        int i = l;
-        int j = mid+1;
-        int k = 0;
-
-        while(i <= mid && j <= r) {
-            if(a[i] <= a[j]) {
-                temp[k] = a[i];
-                k++;
-                i++;
+        while(now1 <= mid && now2 <= r) {
+            if(a[now1] < a[now2]) {
+                temp[idx] = a[now1];
+                now1++;
+                idx++;
             }
             else {
-                temp[k] = a[j];
-                k++;
-                j++;
+                temp[idx] = a[now2];
+                now2++;
+                idx++;
             }
         }
-
-        while(i <= mid) {
-            temp[k] = a[i];
-            k++;
-            i++;
+        while(now1 <= mid) {
+            temp[idx] = a[now1];
+            now1++;
+            idx++;
+        }
+        while(now2 <= r) {
+            temp[idx] = a[now2];
+            now2++;
+            idx++;
         }
 
-        while(j <= r) {
-            temp[k] = a[j];
-            k++;
-            j++;
-        }
-
-        for(int t = 0; t < temp.length; t++) {
-            a[l+t] = temp[t];
+        for(int i = 0; i < idx; i++) {
+            a[l+i] = temp[i];
             cnt++;
-            if(cnt == stop) {
-                ret = a[l+t];
+            if(cnt == k) {
+                ret = a[l+i];
             }
         }
 

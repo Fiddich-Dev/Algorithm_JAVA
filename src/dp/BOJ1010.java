@@ -5,45 +5,56 @@ import java.io.*;
 
 public class BOJ1010 {
 
-    static int n, m, cnt;
+    static int[][] dp = new int[34][34];
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int t = Integer.parseInt(st.nextToken());
+
+
+        for(int i = 0; i <= 30; i++) {
+            for(int j = 0; j <= 30; j++) {
+                dp[i][j] = -1;
+            }
+        }
 
         for(int q = 0; q < t; q++) {
-            st = new StringTokenizer(br.readLine());
-            n = Integer.parseInt(st.nextToken());
-            m = Integer.parseInt(st.nextToken());
-
-            n = Math.min(n, m-n);
-
-            long a = 1;
-            long b = 1;
+            int n = sc.nextInt();
+            int m = sc.nextInt();
 
 
-            for(int i = 1; i <= n; i++) {
-                a *= m;
-                m--;
-            }
-            for(int i = 1; i <= n; i++) {
-                b *= i;
-            }
+            System.out.println(go(m, n));
 
-            System.out.println(a / b);
+
 
 
         }
+    }
+    // 초, 기, 메, 로
+    static int go(int a, int b) {
+
+        if(b == 0 || a == b) {
+            return 1;
+        }
+
+        if (a < 0 || b < 0) {
+            return 0;
+        }
 
 
+        if(dp[a][b] != -1) {
+            return dp[a][b];
+        }
+
+        return dp[a][b] = go(a-1, b-1) + go(a-1, b);
 
     }
-
-
 }
 
-// 테이블 : dp[a][b] = a개 중에 b개를 고르는 경우의 수
-// 점화식 : dp[m][n] = dp[m-1][n-1] + dp[m-1][n];
+// n C r
+// n! / r! * (n-r)!
 
+// 테이블 dp[n][m] = n개 중에 m개를 고르는 경우의 수
+// 점화식 dp[n][m] = dp[n-1][m-1] + dp[n-1][m]
+// 초기화 dp[n][n] = 1, dp[n][0] = 1
