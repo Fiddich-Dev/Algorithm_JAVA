@@ -11,71 +11,74 @@ public class BOJ5430 {
         for(int q = 0; q < t; q++) {
             String s = sc.next();
             int n = sc.nextInt();
-            String numbers = sc.next();
-            numbers = numbers.substring(1, numbers.length()-1);
+            String arr = sc.next();
+//            arr = arr.substring(1, arr.length()-1);
+            String[] numbers = arr.split(",");
 
-            String[] nums = numbers.split(",");
-
-            int flag = 0; // 0은 정방향, 1은 역방향
             Deque<Integer> dq = new ArrayDeque<>();
 
-            if(!nums[0].isEmpty()) {
-                for(String now : nums) {
-                    int num = Integer.parseInt(now);
-                    dq.addLast(num);
+            int cur = 0;
+            for(int i = 1; i < arr.length()-1; i++) {
+                if(arr.charAt(i) == ',') {
+                    dq.addLast(cur);
+                    cur = 0;
+                }
+                else {
+                    cur = cur * 10 + (arr.charAt(i) - '0');
                 }
             }
 
+            if(cur != 0) { // "[]"가 아닌 경우
+                dq.addLast(cur);
+            }
 
+//            for(int i = 0; i < n; i++) {
+//                dq.addLast(Integer.parseInt(numbers[i]));
+//            }
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("[");
-
+            int flag = 0;
             boolean isError = false;
 
             for(char c : s.toCharArray()) {
                 if(c == 'R') {
                     flag ^= 1;
                 }
-                else if(c == 'D') {
+                else {
                     if(dq.isEmpty()) {
+                        System.out.println("error");
+                        isError = true;
                         break;
                     }
 
                     if(flag == 0) {
-                        if(!dq.isEmpty()) {
-                            dq.pollFirst();
-                        }
-
+                        dq.pollFirst();
                     }
-                    else if(flag == 1) {
-                        if(!dq.isEmpty()) {
-                            dq.pollLast();
-                        }
+                    else {
+                        dq.pollLast();
                     }
                 }
             }
 
-            if(dq.isEmpty()) {
-                System.out.println("error");
-                continue;
-            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
 
             if(flag == 0) {
                 while(!dq.isEmpty()) {
                     sb.append(dq.pollFirst()).append(",");
                 }
             }
-            else if(flag == 1) {
+            else {
                 while(!dq.isEmpty()) {
-                    sb.append(dq.pollFirst()).append(",");
+                    sb.append(dq.pollLast()).append(",");
                 }
             }
-            sb.deleteCharAt(sb.length()-1);
+            if(!sb.toString().equals("[")) {
+                sb.deleteCharAt(sb.length()-1);
+            }
             sb.append("]");
-
-
-            System.out.println(sb);
+            if(!isError) {
+                System.out.println(sb);
+            }
         }
     }
 }
