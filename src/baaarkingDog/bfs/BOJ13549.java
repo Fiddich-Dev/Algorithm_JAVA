@@ -4,56 +4,66 @@ import java.util.*;
 
 public class BOJ13549 {
 
+    static int n, m;
+    static int[] visited = new int[200004];
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
+        n = sc.nextInt();
+        m = sc.nextInt();
 
-        int[] a = new int[200004];
-        int[] visited = new int[200004];
-
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(n, 1));
+        Queue<Integer> q = new LinkedList<>();
+        q.add(n);
         visited[n] = 1;
 
         while(!q.isEmpty()) {
-            Pair p = q.poll();
-            int idx = p.idx;
-            int time = p.time;
+            int here = q.poll();
+//            System.out.println(here);
 
-            if(idx+1 >= 0 && idx+1 <= 200000) {
-                if(visited[idx+1] == 0 || visited[idx+1] > time+1) {
-                    visited[idx+1] = time+1;
-                    q.add(new Pair(idx+1, time+1));
+            int there = here - 1;
+            if(there < 0 || there > 200000) {
+
+            }
+            else {
+                if (visited[there] == 0) {
+                    q.add(there);
+                    visited[there] = visited[here] + 1;
                 }
             }
 
-            if(idx-1 >= 0 && idx-1 <= 200000) {
-                if(visited[idx-1] == 0 || visited[idx-1] > time+1) {
-                    visited[idx-1] = time+1;
-                    q.add(new Pair(idx-1, time+1));
+            there = here + 1;
+            if(there < 0 || there > 200000) { }
+            else {
+                if (visited[there] == 0) {
+                    q.add(there);
+                    visited[there] = visited[here] + 1;
                 }
             }
 
-            if(idx*2 >= 0 && idx*2 <= 200000) {
-                if(visited[idx*2] == 0 || visited[idx*2] > time) {
-                    visited[idx*2] = time;
-                    q.add(new Pair(idx*2, time));
+            there = here * 2;
+            while(there <= 200000 && there != 0) {
+                if(visited[there] == 0) {
+                    visited[there] = visited[here];
                 }
+                else {
+                    visited[there] = Math.min(visited[there], visited[here]);
+                }
+                q.add(there);
+                there *= 2;
             }
         }
 
-        System.out.println(visited[m] - 1);
+        System.out.println(visited[m]-1);
 
     }
 
     static class Pair {
-        int idx;
-        int time;
+        int y;
+        int x;
 
-        public Pair(int idx, int time) {
-            this.idx = idx;
-            this.time = time;
+        public Pair(int y, int x) {
+            this.y = y;
+            this.x = x;
         }
     }
 }
