@@ -8,18 +8,16 @@ public class BOJ2156 {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] a = new int[n+1];
+        int[] dp = new int[10004];
         for(int i = 1; i <= n; i++) {
             a[i] = sc.nextInt();
         }
-
-        int[] dp = new int[n+1];
 
         if(n == 1) {
             System.out.println(a[1]);
             return;
         }
 
-        dp[0] = 0;
         dp[1] = a[1];
         dp[2] = a[1] + a[2];
 
@@ -31,8 +29,8 @@ public class BOJ2156 {
     }
 }
 
-// dp[n] = n번쨰 잔까지 고려했을 떄 최댓값
-// dp[i] = max(dp[i-1], dp[i-2] + a[i], dp[i-3]
-// ...xoo  dp[i-3] + a[i-1] + a[i]
-// ...?xo  dp[i-2] + a[i]
-// ...??x  dp[i-1]
+// dp[n] = n번째를 마셨을떄 최댓값
+// dp[n] = dp[n-3] + a[n-1] + a[n], dp[n-2] + a[n], dp[n-1]
+// xoo
+// xo
+// x
