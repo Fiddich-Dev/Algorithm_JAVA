@@ -5,103 +5,137 @@ import java.util.*;
 public class BOJ4991 {
 
     static int n, m;
-    static int[][] a;
-    static StringBuilder sb = new StringBuilder();
-    static Pair robot;
-    static int[][] visited;
+    static char[][] a;
     static int[] dy = {-1, 0, 1, 0};
     static int[] dx = {0, 1, 0, -1};
-
-    static int ret = 0;
+    static List<Pair> pos;
+    static List<Pair> dirty;
+    static int[][] visited;
+    static int[][] dp;
+    static int ret;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-
-
         while(true) {
-            ret = 0;
+            ret = Integer.MAX_VALUE;
+            dirty = new ArrayList<>();
+            pos = new ArrayList<>();
             m = sc.nextInt();
             n = sc.nextInt();
-
             if(n == 0 && m == 0) {
                 break;
             }
 
-            a = new int[n][m];
+            a = new char[n][m];
             for(int i = 0; i < n; i++) {
                 String temp = sc.next();
                 for(int j = 0; j < m; j++) {
                     a[i][j] = temp.charAt(j);
                     if(a[i][j] == 'o') {
-                        a[i][j] = '.';
-                        robot = new Pair(i, j);
+                        pos.add(new Pair(i, j));
+                    }
+                    else if(a[i][j] == '*') {
+                        dirty.add(new Pair(i, j));
                     }
                 }
             }
 
-            while(true) {
-                int cnt = 0;
-                for(int i = 0; i < n; i++) {
-                    for(int j = 0; j < m; j++) {
-                        if(a[i][j] == '*') {
-                            cnt++;
-                        }
-                    }
-                }
-                if(cnt == 0) {
-                    break;
-                }
+            pos.addAll(dirty);
 
-//                System.out.println(robot.y + " : " + robot.x);
+            dp = new int[pos.size()][pos.size()];
 
+            for(int i = 0; i < pos.size(); i++) {
+                Pair p = pos.get(i);
                 visited = new int[n][m];
-                bfs(robot.y, robot.x);
+                bfs(p.y, p.x);
+                for(int j = 0; j < pos.size(); j++) {
+                    Pair temp = pos.get(j);
+                    int y = temp.y;
+                    int x = temp.x;
+                    dp[i][j] = visited[y][x] - 1;
+                }
+            }
 
-                List<Status> canDirty = check();
+            int[] order = new int[pos.size()];
+            for(int i = 0; i < pos.size(); i++) {
+                order[i] = i;
+            }
 
-                if(canDirty.isEmpty()) {
-                    System.out.println(-1);
+            temp = new int[pos.size()];
+            List<Integer> v = new ArrayList<>();
+            v.add(0);
+            perm(v);
+
+//            permutation(1, pos.size(), pos.size(), order);
+
+            if(ret == Integer.MAX_VALUE) {
+                System.out.println(-1);
+            }
+            else {
+                System.out.println(ret);
+            }
+        }
+    }
+
+    static int[] temp;
+    static void perm(List<Integer> b) {
+        if(b.size() == pos.size()) {
+            int temp = 0;
+            for(int i = 0; i < b.size()-1; i++) {
+                int from = b.get(i);
+                int to = b.get(i+1);
+                if(dp[from][to] == -1) {
                     return;
                 }
-                else {
-                    Collections.sort(canDirty, (s1, s2) -> {
-                        return s1.dis - s2.dis;
-                    });
-                    int y = canDirty.get(0).y;
-                    int x = canDirty.get(0).x;
-                    int dis = canDirty.get(0).dis;
-                    ret += dis;
-                    a[y][x] = '.';
-                    robot.y = y;
-                    robot.x = x;
-                }
+                temp += dp[from][to];
             }
-
-            System.out.println(ret);
-
-
+            ret = Math.min(ret, temp);
+            return;
         }
+        for(int i = 1; i < pos.size(); i++) {
+            if(temp[i] == 1) {
+                continue;
+            }
+            b.add(i);
+            temp[i] = 1;
 
+            perm(b);
+
+            temp[i] = 0;
+            b.remove(b.size() - 1);
+        }
     }
 
-    // 갈수 있는데가 있으면 true
-    static List<Status> check() {
-        List<Status> dirty = new ArrayList<>();
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                if(a[i][j] == '*' && visited[i][j] != 0) {
-                    dirty.add(new Status(i, j, visited[i][j]-1));
-                }
-            }
-        }
-
-        return dirty;
-    }
+//    static void permutation(int depth, int n, int r, int[] order) {
+//        if(depth == r) {
+//            int temp = 0;
+//            for(int i = 0; i < order.length-1; i++) {
+//                int from = order[i];
+//                int to = order[i+1];
+//                if(dp[from][to] == -1) {
+//                    return;
+//                }
+//                temp += dp[from][to];
+//            }
+//            ret = Math.min(ret, temp);
+//            return;
+//        }
+//        for(int i = depth; i < n; i++) {
+//            swap(depth, i, order);
+//            permutation(depth+1, n, r, order);
+//            swap(depth, i, order);
+//        }
+//    }
+//
+//    static void swap(int depth, int i, int[] order) {
+//        int temp = order[i];
+//        order[i] = order[depth];
+//        order[depth] = temp;
+//    }
 
     static void bfs(int y, int x) {
-        Queue<Pair> q = new LinkedList<>();
         visited[y][x] = 1;
+        Queue<Pair> q = new LinkedList<>();
         q.add(new Pair(y, x));
 
         while(!q.isEmpty()) {
@@ -117,18 +151,6 @@ public class BOJ4991 {
                     visited[ny][nx] = visited[p.y][p.x] + 1;
                 }
             }
-        }
-    }
-
-    static class Status {
-        int y;
-        int x;
-        int dis;
-
-        public Status(int y, int x, int dis) {
-            this.y = y;
-            this.x = x;
-            this.dis = dis;
         }
     }
 
